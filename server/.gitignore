@@ -1,0 +1,7 @@
+CSVCache
+node_modules
+coverage
+*.local
+.env.
+logs
+dist
