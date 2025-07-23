@@ -1,2 +1,4 @@
 export * from "./user.model";
-export * from "./exemple.model";
+/*
+export * from "./_exemple.model";
+*/

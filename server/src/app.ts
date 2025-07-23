@@ -4,7 +4,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import express, { type ErrorRequestHandler } from "express";
 import sequelize from "./config/database";
-import { Exemple } from "./models/exemple.model";
+// import { Exemple } from "./models/_exemple.model.";
 import { User } from "./models/user.model";
 import router from "./router";
 
@@ -120,7 +120,7 @@ async function startServer() {
 
     // NIVEAU 0 : Modèles sans dépendances ou avec des dépendances simples
     User.initialize(sequelize);
-    Exemple.initialize(sequelize);
+    // Exemple.initialize(sequelize);
 
     // NIVEAU 1 : Modèles dépendant du niveau 0
 
@@ -130,7 +130,7 @@ async function startServer() {
 
     // --- DÉFINITION DES ASSOCIATIONS ---
     User.associate(sequelize);
-    Exemple.associate(sequelize);
+    // Exemple.associate(sequelize);
 
     console.log("sequelize.sync est géré par les migrations.", LogLevel.INFO);
 
