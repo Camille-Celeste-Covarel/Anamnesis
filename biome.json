@@ -8,11 +8,12 @@
   "files": {
     "ignoreUnknown": false,
     "ignore": [
-      "**/dist/*",
-      "**/*.template.*",
-      "**/tsconfig.json",
-      "**/server/bin/*.ts",
-      "coverage"
+      "dist/",
+      "node_modules/",
+      "**/Dockerfile",
+      "**/docker-compose*.yml",
+      "**/package.json",
+      "**/package-lock.json"
     ]
   },
   "formatter": {

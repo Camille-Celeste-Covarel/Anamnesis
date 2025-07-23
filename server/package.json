@@ -1,5 +1,6 @@
 {
   "name": "@js-monorepo/server",
+  "license": "Apache-2.0",
   "main": "src/main.ts",
   "scripts": {
     "check-types": "tsc --noEmit",

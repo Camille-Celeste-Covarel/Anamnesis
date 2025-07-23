@@ -27,7 +27,7 @@
   },
   "keywords": ["monorepo", "react", "nodejs", "postgresql", "sequelize"],
   "author": "  (hit Enter to use an empty string)",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@commitlint/cli": "^19.8.0",

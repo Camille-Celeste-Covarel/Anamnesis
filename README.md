@@ -1,391 +1,158 @@
-# js-toulouse-geocode
-
-Ce projet est un monorepo JS, suivant l'architecture React-Express-MySQL telle qu'enseignée à la Wild Code School (v7.2.4) :
-
-```mermaid
-sequenceDiagram
-    box Web Client
-    participant React as React
-    participant Fetcher as Fetcher
-    end
-    box Web Server
-    participant Express as Express
-    participant Module as Module
-    end
-    box DB Server
-    participant DB as MySQL Server
-    end
-
-    React-)Fetcher: event
-    activate Fetcher
-    Fetcher-)Express: requête (HTTP)
-    activate Express
-    Express-)Module: appel
-    activate Module
-    Module-)DB: requête SQL
-    activate DB
-    DB--)Module: données
-    deactivate DB
-    Module--)Express: json
-    deactivate Module
-    Express--)Fetcher: réponse HTTP
-    deactivate Express
-    Fetcher--)React: render
-    deactivate Fetcher
-```
-
-Il est pré-configuré avec un ensemble d'outils pour aider les étudiants à produire du code de qualité industrielle, tout en restant un outil pédagogique :
-
-- **Concurrently** : Permet d'exécuter plusieurs commandes simultanément dans le même terminal.
-- **Vite** : Alternative à _Create-React-App_, offrant une expérience plus fluide avec moins d'outils.
-- **Biome** : Alternative à _ESlint_ et _Prettier_, assurant la qualité du code selon des règles choisies.
-- **Supertest** : Bibliothèque pour tester les serveurs HTTP en node.js.
-
-## Table des Matières
-
-- [js-toulouse-geocode](#name)
-  - [Table des Matières](#table-des-matières)
-  - [Installation \& Utilisation](#installation--utilisation)
-  - [Les choses à retenir](#les-choses-à-retenir)
-    - [Commandes de Base](#commandes-de-base)
-    - [Structure des Dossiers](#structure-des-dossiers)
-    - [Mettre en place la base de données](#mettre-en-place-la-base-de-données)
-    - [Développer la partie back-end](#développer-la-partie-back-end)
-    - [REST](#rest)
-    - [Autres Bonnes Pratiques](#autres-bonnes-pratiques)
-  - [FAQ](#faq)
-    - [Installation avec Docker](#installation-avec-docker)
-      - [Mode développement](#mode-développement)
-      - [Installation de nouvelles dépendances](#installation-de-nouvelles-dépendances)
-      - [Accéder à la base de données](#accéder-à-la-base-de-données)
-    - [Déploiement avec Traefik](#déploiement-avec-traefik)
-    - [Variables d'environnement spécifiques](#variables-denvironnement-spécifiques)
-    - [Logs](#logs)
-    - [Contribution](#contribution)
-
-## Installation & Utilisation
-
-1. Installez le plugin **Biome** dans VSCode et configurez-le.
-2. Clonez ce dépôt, puis accédez au répertoire cloné.
-3. Exécutez la commande `npm install`.
-4. Créez des fichiers d'environnement (`.env`) dans les répertoires `server` et `client` : vous pouvez copier les fichiers `.env.sample` comme modèles (**ne les supprimez pas**).
-
-## Les choses à retenir
-
-### Commandes de Base
-
-| Commande               | Description                                                                 |
-|------------------------|-----------------------------------------------------------------------------|
-| `npm install`          | Installe les dépendances pour le client et le serveur                       |
-| `npm run db:migrate`   | Met à jour la base de données à partir d'un schéma défini                   |
-| `npm run dev`          | Démarre les deux serveurs (client et serveur) dans un seul terminal         |
-| `npm run check`        | Exécute les outils de validation (linting et formatage)                     |
-| `npm run test`         | Exécute les tests unitaires et d'intégration                                |
-
-### Structure des Dossiers
-
-```plaintext
-my-project/
-│
-├── server/
-│   ├── app/
-│   │   ├── modules/
-│   │   │   ├── item/
-│   │   │   │   ├── itemActions.ts
-│   │   │   │   └── itemRepository.ts
-│   │   │   └── ...
-│   │   ├── app.ts
-│   │   ├── main.ts
-│   │   └── router.ts
-│   ├── database/
-│   │   ├── client.ts
-│   │   └── schema.sql
-│   ├── tests/
-│   ├── .env
-│   └── .env.sample
-│
-└── client/
-    ├── src/
-    │   ├── components/
-    │   ├── pages/
-    │   └── App.tsx
-    ├── .env
-    └── .env.sample
-```
+# Anamnesis 🔮
 
-### Mettre en place la base de données
+Anamnesis est un monorepo full-stack personnel servant de base de démarrage (template) pour mes projets. Il est construit avec une stack moderne et robuste, pré-configuré avec des outils de qualité de code pour un développement rapide et efficace.
 
-**Créer et remplir le fichier `.env`** dans le dossier `server` :
+---
 
-```plaintext
-DB_HOST=localhost
-DB_PORT=3306
-DB_USER=not_root
-DB_PASSWORD=password
-DB_NAME=my_database
-```
+## ✨ Stack Technique
 
-**Les variables sont utilisés** dans `server/database/client.ts` :
+Ce projet combine une interface React performante avec un serveur Node.js solide, le tout en TypeScript.
 
-```typescript
-const { DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME } = process.env;
+| Catégorie      | Technologie     | Description                                                              |
+| :------------- | :-------------- | :----------------------------------------------------------------------- |
+| **Frontend** | **React 19** | Pour construire des interfaces utilisateur dynamiques.                   |
+|                | **Vite** | Build tool ultra-rapide pour une expérience de développement fluide.     |
+|                | **TypeScript** | Pour un code plus sûr et plus maintenable.                               |
+|                | **TanStack Query** | Gestion du state serveur, du cache et de la synchronisation des données. |
+|                | **React Router** | Pour la gestion des routes côté client.                                  |
+|                | **React Icons** | Bibliothèque d'icônes centralisée.                                       |
+| **Backend** | **Node.js** | Environnement d'exécution JavaScript côté serveur.                       |
+|                | **Express** | Framework minimaliste pour construire l'API REST.                        |
+|                | **PostgreSQL** | Système de gestion de base de données relationnelle open-source.         |
+|                | **Sequelize** | ORM pour Node.js, facilitant les interactions avec la base de données.   |
+|                | **JWT & Bcrypt** | Pour l'authentification sécurisée par jetons.                            |
+| **Tooling** | **Biome** | Linter et formateur tout-en-un pour une qualité de code irréprochable.   |
+|                | **Concurrently** | Pour lancer les serveurs client et back-end simultanément.               |
+|                | **Commitlint** | Pour s'assurer que les messages de commit suivent un format standard.    |
 
-import mysql from "mysql2/promise";
+---
 
-const client = mysql.createPool({
-  host: DB_HOST,
-  port: DB_PORT as number | undefined,
-  user: DB_USER,
-  password: DB_PASSWORD,
-  database: DB_NAME,
-});
+## 🚀 Démarrage Rapide
 
-export default client;
-```
+Suivez ces étapes pour lancer le projet en local.
 
-**Créer une table** dans `server/database/schema.sql` :
+### Prérequis
 
-```sql
-CREATE TABLE item (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  title VARCHAR(255) NOT NULL,
-  user_id INT NOT NULL,
-  FOREIGN KEY(user_id) REFERENCES user(id)
-);
-```
+-   Node.js (v18+ recommandé)
+-   Git
+-   Une instance de **PostgreSQL** en cours d'exécution.
 
-**Insérer des données** dans `server/database/schema.sql` :
+### Installation
 
-```sql
-INSERT INTO item (title, user_id) VALUES
-  ('Sample Item 1', 1),
-  ('Sample Item 2', 2);
-```
+1.  **Clonez le dépôt :**
 
-**Synchroniser la BDD avec le schema** :
+    ```bash
+    git clone git@github.com:Constance-Tlse/Anamnesis.git
+    cd Anamnesis
+    ```
 
-```sh
-npm run db:migrate
-```
+2.  **Installez toutes les dépendances :** La commande suivante, lancée à la racine, installera les dépendances pour le client et le serveur grâce aux workspaces.
 
-### Développer la partie back-end
+    ```bash
+    npm install
+    ```
 
-**Créer une route** dans `server/app/router.ts` :
+3.  **Configurez les variables d'environnement :** Créez un fichier `.env` dans le dossier `server` et un autre dans le dossier `client` en vous basant sur les exemples ci-dessous.
 
-```typescript
-// ...
+    `server/.env` :
 
-/* ************************************************************************* */
-// Define Your API Routes Here
-/* ************************************************************************* */
+    ```properties
+    # Configuration de la base de données (PostgreSQL)
+    DB_USER=votre_user_postgres
+    DB_PASS=votre_mot_de_passe
+    DB_HOST=localhost
+    DB_PORT=5432
+    DB_NAME=anamnesis_db
+    DB_DIALECT=postgres
 
-// Define item-related routes
-import itemActions from "./modules/item/itemActions";
+    # Clé secrète pour les jetons JWT (utilisez une chaîne longue et aléatoire)
+    JWT_SECRET=votre_super_secret
 
-router.get("/api/items", itemActions.browse);
+    # URL du client pour la configuration CORS
+    CLIENT_URL=http://localhost:5173
+    ```
 
-/* ************************************************************************* */
+    `client/.env` :
 
-// ...
-```
+    ```properties
+    # URL de l'API back-end
+    VITE_API_URL=http://localhost:3310
+    ```
 
-**Définir une action** dans `server/app/modules/item/itemActions.ts` :
+4.  **Mettez en place la base de données :** Cette commande va créer les tables définies par les modèles Sequelize.
 
-```typescript
-import type { RequestHandler } from "express";
+    ```bash
+    npm run db:migrate
+    ```
 
-import itemRepository from "./itemRepository";
+5.  **(Optionnel) Remplissez la base de données avec des données de test :**
 
-const browse: RequestHandler = async (req, res, next) => {
-  try {
-    const items = await itemRepository.readAll();
+    ```bash
+    npm run db:seed
+    ```
 
-    res.json(items);
-  } catch (err) {
-    next(err);
-  }
-};
+6.  **Lancez l'application :** Cette commande démarre le serveur back-end et le client front-end en même temps.
 
-export default { browse };
-```
+    ```bash
+    npm run dev
+    ```
 
-**Accéder aux données** dans `server/app/modules/item/itemRepository.ts` :
+    * Le client sera accessible sur `http://localhost:5173`.
+    * Le serveur sera accessible sur `http://localhost:3310`.
 
-```typescript
-import databaseClient from "../../../database/client";
+---
 
-import type { Result, Rows } from "../../../database/client";
+## 🚀 Utiliser Anamnesis comme Template
 
-interface Item {
-  id: number;
-  title: string;
-  user_id: number;
-}
+Pour démarrer un nouveau projet basé sur Anamnesis :
 
-class ItemRepository {
-  async readAll() {
-    const [rows] = await databaseClient.query<Rows>("select * from item");
+1.  **Créez une copie locale :** Clonez le projet dans un nouveau dossier qui portera le nom de votre nouveau projet.
 
-    return rows as Item[];
-  }
-}
+    ```bash
+    git clone git@github.com:Constance-Tlse/Anamnesis.git MonNouveauProjet
+    cd MonNouveauProjet
+    ```
 
-export default new ItemRepository();
-```
+2.  **Réinitialisez l'historique Git :** Ceci supprime l'historique des commits d'Anamnesis pour repartir de zéro.
 
-**Ajouter un middleware** 
+    ```bash
+    rm -rf .git
+    git init
+    ```
 
-```typescript
-// ...
-
-/* ************************************************************************* */
-// Define Your API Routes Here
-/* ************************************************************************* */
+3.  **Liez-le à votre propre dépôt distant :** Créez un nouveau dépôt vide sur GitHub (ou ailleurs) et liez-le à votre projet local.
 
-// Define item-related routes
-import itemActions from "./modules/item/itemActions";
+    ```bash
+    git remote add origin git@github.com:VotrePseudo/MonNouveauProjet.git
+    ```
 
-const foo: RequestHandler = (req, res, next) => {
-  req.message = "hello middleware";
+4.  **Personnalisez votre projet :**
+    * Ouvrez les 3 fichiers `package.json` (à la racine, dans `client/` et dans `server/`).
+    * Modifiez les champs `name`, `author`, `description`, `repository`, etc. pour qu'ils correspondent à votre nouveau projet.
 
-  next();
-}
+5.  **Suivez le guide d'installation classique :**
+    * Installez les dépendances (`npm install`).
+    * Créez et configurez vos fichiers `.env` avec les bonnes informations (ports, accès BDD, etc.).
+    * Lancez les migrations (`npm run db:migrate`).
+    * Testez que tout fonctionne (`npm run dev`).
 
-router.get("/api/items", foo, itemActions.browse);
+6.  **Faites votre premier commit :** Une fois que tout est configuré et fonctionnel, enregistrez cette base saine.
 
-/* ************************************************************************* */
+    ```bash
+    git add .
+    git commit -m "feat: Initial commit from Anamnesis template"
+    ```
 
-// ...
-```
+7.  **Poussez votre premier commit :** Envoyez votre historique local vers le dépôt distant.
 
-`req.message` sera disponible dans `itemActions.browse`.
+    ```bash
+    git push -u origin main
+    ```
 
-⚠️ La propriété `message` doit être ajoutée dans `src/types/express/index.d.ts` :
+    Votre nouveau projet est prêt !
 
-```diff
-// to make the file a module and avoid the TypeScript error
-export type {};
+---
 
-declare global {
-  namespace Express {
-    export interface Request {
-      /* ************************************************************************* */
-      // Add your custom properties here, for example:
-      //
-      // user?: { ... };
-      /* ************************************************************************* */
-+      message: string;
-    }
-  }
-}
-```
+## 📜 Licence
 
-### REST
-
-| Opération | Méthode | Chemin d'URL | Corps de la requête | SQL    | Réponse (Succès)               | Réponse (Erreur)                                                       |
-|-----------|---------|--------------|---------------------|--------|--------------------------------|------------------------------------------------------------------------|
-| Browse    | GET     | /items       |                     | SELECT | 200 (OK), liste des items.     |                                                                        |
-| Read      | GET     | /items/:id   |                     | SELECT | 200 (OK), un item.             | 404 (Not Found), si id invalide.                                       |
-| Add       | POST    | /items       | Données de l'item   | INSERT | 201 (Created), id d'insertion. | 400 (Bad Request), si corps invalide.                                  |
-| Edit      | PUT     | /items/:id   | Données de l'item   | UPDATE | 204 (No Content).              | 400 (Bad Request), si corps invalide. 404 (Not Found), si id invalide. |
-| Destroy   | DELETE  | /items/:id   |                     | DELETE | 204 (No Content).              | 404 (Not Found), si id invalide.                                       |
-
-### Autres Bonnes Pratiques
-
-- **Sécurité** :
-  - Validez et échappez toujours les entrées des utilisateurs.
-  - Utilisez HTTPS pour toutes les communications réseau.
-  - Stockez les mots de passe de manière sécurisée en utilisant des hash forts (ex : argon2).
-  - Revoyez et mettez à jour régulièrement les dépendances.
-
-- **Code** :
-  - Suivez les principes SOLID pour une architecture de code propre et maintenable.
-  - Utilisez TypeScript pour bénéficier de la vérification statique des types.
-  - Adoptez un style de codage cohérent avec Biome.
-  - Écrivez des tests pour toutes les fonctionnalités critiques.
-
-## FAQ
-
-### Installation avec Docker
-> ⚠️ Prérequis : Vous devez avoir installé Docker et Docker Compose sur votre machine.  
-> Suivez les instructions ici : [Docker Installation](https://docs.docker.com/get-docker/).
-
-Lorsque Docker est installé et démarré, exécutez la commande suivante pour construire l'image Docker et démarrer les conteneurs :
-```bash
-docker compose up -d --build
-```
-La partie _client_ de l'application sera accessible à l'adresse http://localhost:3000 et la partie _serveur_ à l'adresse http://localhost:3310.  
-Pour arrêter et supprimer les conteneurs, exécutez :
-```bash
-docker compose down
-```
-
-#### Mode développement
-Les dépendances (du dossier `node_modules`) sont installées dans le conteneur Docker et ne seront pas visibles directement. Si vous utilisez un IDE comme VSCode et que vous souhaitez modifier des fichiers de votre application, vous devez installer les dépendances localement pour prévenir toute erreur de fichiers manquants.  
-```bash
-npm install
-```
-
-#### Installation de nouvelles dépendances
-Pour installer de nouvelles dépendances, procédez en local comme d'habitude avec `npm install <package-name>`, puis, synchronisez les dépendances dans le conteneur Docker avec la commande suivante :
-```bash
-docker compose exec web sh -c "npm install"
-```
-
-#### Accéder à la base de données
-Pour vous connecter à la base de données avec votre terminal, exécutez la commande suivante :
-```bash
-docker compose exec database sh -c "mysql -uuser -ppassword js_template_fullstack"
-```
-
-### Déploiement avec Traefik
-
-> ⚠️ Prérequis : Vous devez avoir installé et configuré Traefik sur votre VPS au préalable. Suivez les instructions ici : [VPS Traefik Starter Kit](https://github.com/WildCodeSchool/vps-traefik-starter-kit/).
-
-Pour le déploiement, ajoutez les secrets suivants dans la section `secrets` → `actions` du dépôt GitHub :
-
-- `SSH_HOST` : Adresse IP de votre VPS
-- `SSH_USER` : Identifiant SSH pour votre VPS
-- `SSH_PASSWORD` : Mot de passe de connexion SSH pour votre VPS
-
-Et une variable publique dans `/settings/variables/actions` :
-
-- `PROJECT_NAME` : Le nom du projet utilisé pour créer le sous-domaine.
-
-> ⚠️ Avertissement : Les underscores ne sont pas autorisés car ils peuvent causer des problèmes avec le certificat Let's Encrypt.
-
-L'URL de votre projet sera `https://${PROJECT-NAME}.${subdomain}.wilders.dev/`.
-
-### Variables d'environnement spécifiques
-
-Les étudiants doivent utiliser le modèle fourni dans le fichier `*.env.sample*` en suivant la convention `<PROJECT_NAME><SPECIFIC_NAME>=<THE_VARIABLE>`.
-
-> ⚠️ **Avertissement:** Le `PROJECT_NAME` doit correspondre à celui utilisé dans la variable publique Git.
-
-Pour l'ajouter lors du déploiement, suivez ces deux étapes :
-
-1. Ajoutez la variable correspondante dans le fichier `docker-compose.prod.yml` (comme montré dans l'exemple : `PROJECT_NAME_SPECIFIC_NAME: ${PROJECT_NAME_SPECIFIC_NAME}`).
-2. Connectez-vous à votre serveur via SSH. Ouvrez le fichier `.env` global dans Traefik (`nano ./traefik/data/.env`). Ajoutez la variable avec la valeur correcte et sauvegardez le fichier.
-
-Après cela, vous pouvez lancer le déploiement automatique. Docker ne sera pas rafraîchi pendant ce processus.
-
-### Logs
-
-Pour accéder aux logs de votre projet en ligne (pour suivre le déploiement ou surveiller les erreurs), connectez-vous à votre VPS (`ssh user@host`). Ensuite, allez dans votre projet spécifique et exécutez `docker compose logs -t -f`.
-
-### Contribution
-
-Nous accueillons avec plaisir les contributions ! Veuillez suivre ces étapes pour contribuer :
-
-1. **Fork** le dépôt.
-2. **Clone** votre fork sur votre machine locale.
-3. Créez une nouvelle branche pour votre fonctionnalité ou bug fix (`git switch -c feature/your-feature-name`).
-4. **Commit** vos modifications (`git commit -m 'Add some feature'`).
-5. **Push** vers votre branche (`git push origin feature/your-feature-name`).
-6. Créez une **Pull Request** sur le dépôt principal.
-
-**Guide de Contribution** :
-
-- Assurez-vous que votre code respecte les standards de codage en exécutant `npm run check` avant de pousser vos modifications.
-- Ajoutez des tests pour toute nouvelle fonctionnalité ou correction de bug.
-- Documentez clairement vos modifications dans la description de la pull request.
+Ce projet est sous licence Apache 2.0. Voir le fichier `LICENSE` pour plus de détails.
