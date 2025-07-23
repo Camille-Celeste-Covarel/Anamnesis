@@ -114,7 +114,7 @@ Pour démarrer un nouveau projet basé sur Anamnesis :
     git init
     ```
 
-3.  **Liez-le à votre propre dépôt distant :** Créez un nouveau dépôt vide sur GitHub (ou ailleurs) et liez-le à votre projet local.
+3.  **Liez-le à votre propre dépôt distant :** Créez un nouveau dépôt **VIDE** sur GitHub (ou ailleurs) et liez-le à votre projet local.
 
     ```bash
     git remote add origin git@github.com:VotrePseudo/MonNouveauProjet.git
