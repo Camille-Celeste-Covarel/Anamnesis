@@ -85,19 +85,13 @@ Suivez ces étapes pour lancer le projet en local.
     npm run db:migrate
     ```
 
-5.  **(Optionnel) Remplissez la base de données avec des données de test :**
-
-    ```bash
-    npm run db:seed
-    ```
-
-6.  **Lancez l'application :** Cette commande démarre le serveur back-end et le client front-end en même temps.
+5. **Lancez l'application :** Cette commande démarre le serveur back-end et le client front-end en même temps.
 
     ```bash
     npm run dev
     ```
 
-    * Le client sera accessible sur `http://localhost:5173`.
+    * Le client sera accessible sur `http://localhost:3000`.
     * Le serveur sera accessible sur `http://localhost:3310`.
 
 ---
