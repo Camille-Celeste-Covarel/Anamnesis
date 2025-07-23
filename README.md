@@ -127,6 +127,7 @@ Pour démarrer un nouveau projet basé sur Anamnesis :
 5.  **Suivez le guide d'installation classique :**
     * Installez les dépendances (`npm install`).
     * Créez et configurez vos fichiers `.env` avec les bonnes informations (ports, accès BDD, etc.).
+    * Créez votre fichier de migration avec `npx sequelize-cli migration:generate --name exemple_name`.
     * Lancez les migrations (`npm run db:migrate`).
     * Testez que tout fonctionne (`npm run dev`).
 
