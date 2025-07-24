@@ -79,13 +79,19 @@ Suivez ces étapes pour lancer le projet en local.
     VITE_API_URL=http://localhost:3310
     ```
 
-4.  **Mettez en place la base de données :** Cette commande va créer les tables définies par les modèles Sequelize.
+4.  ** Créer votre premier fichier de migration**
+
+    ```bash
+    npx sequelize-cli migration:generate --name exemple_name 
+    ```
+
+5.  **Mettez en place la base de données :** Cette commande va créer les tables définies par les modèles Sequelize.
 
     ```bash
     npm run db:migrate
     ```
 
-5. **Lancez l'application :** Cette commande démarre le serveur back-end et le client front-end en même temps.
+6.  **Lancez l'application :** Cette commande démarre le serveur back-end et le client front-end en même temps.
 
     ```bash
     npm run dev
