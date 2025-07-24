@@ -11,6 +11,7 @@ module.exports = {
 
     // --- Création de la table 'Exemple' ---
     // Copier le contenu de votre partie "init" de vos modèles sequelize
+    // Remplacer le DATATYPE par Sequelize dans la catégorie "type" de chaque item
     await queryInterface.createTable("exemple", {
       id: {
         type: Sequelize.UUID, // Choose the good type
@@ -33,7 +34,7 @@ module.exports = {
     // 2. Tables enfants
     // 3. Tables parentes
     // 4. Tables de lookup
-    
+
 
     // --- Exemple de suppresion d'une table ---
     // CTRL C / CTRL V pour créer un nouveau drop
