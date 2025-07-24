@@ -1,5 +1,5 @@
 # Anamnesis 🔮
-![Illustration pour Anamnesis](/server/5ae734d84d24638bd2aac227c12874a7.jpg)
+![Illustration pour Anamnesis](/5ae734d84d24638bd2aac227c12874a7.jpg)
 
 *Artworks par Astral Requin https://www.deviantart.com/astral-requin/art/Flight-of-the-Bird-286419529*
 
