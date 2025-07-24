@@ -1,0 +1,42 @@
+/** @type {import('sequelize-cli').Migration} */
+const { DataTypes } = require("sequelize");
+module.exports = {
+  async up(queryInterface, Sequelize) {
+    // Ordre de création des tables :
+    // 1. Tables de lookup (sans dépendances)
+    // 2. Tables parentes
+    // 3. Tables enfants
+    // 4. Tables de jointure
+
+
+    // --- Création de la table 'Exemple' ---
+    // Copier le contenu de votre partie "init" de vos modèles sequelize
+    await queryInterface.createTable("exemple", {
+      id: {
+        type: Sequelize.UUID, // Choose the good type
+        defaultValue: Sequelize.UUIDV4, // harmonize
+        primaryKey: true,
+        allowNull: false,
+      },
+      exemple: {
+        type: Sequelize.UUID, // Choose the good type
+        defaultValue: Sequelize.UUIDV4, // harmonize
+        primaryKey: true,
+        allowNull: false,
+      },
+    });
+  },
+
+  async down(queryInterface, Sequelize) {
+    // Ordre de suppression des tables (inverse de la création) :
+    // 1. Tables de jointure
+    // 2. Tables enfants
+    // 3. Tables parentes
+    // 4. Tables de lookup
+    
+
+    // --- Exemple de suppresion d'une table ---
+    // CTRL C / CTRL V pour créer un nouveau drop
+    await queryInterface.dropTable("exemple");
+  },
+};
