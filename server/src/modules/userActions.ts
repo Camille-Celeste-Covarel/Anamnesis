@@ -18,7 +18,11 @@ interface MulterFiles {
 // Récupère tous les utilisateurs de la base de données.
 const browse: RequestHandler = async (req, res, next) => {
   try {
-    const users = await User.findAll();
+    const users = await User.findAll({
+      attributes: {
+        exclude: ["password", "reset_token", "reset_token_expiry"],
+      },
+    });
     res.json(users);
   } catch (err) {
     next(err);
@@ -30,8 +34,11 @@ const browse: RequestHandler = async (req, res, next) => {
 const read: RequestHandler = async (req, res, next) => {
   try {
     const userId = req.params.id;
-    const user = await User.findByPk(userId);
-
+    const user = await User.findByPk(userId, {
+      attributes: {
+        exclude: ["password", "reset_token", "reset_token_expiry"],
+      },
+    });
     if (user == null) {
       res.sendStatus(404);
     } else {
@@ -52,7 +59,8 @@ const add: RequestHandler = async (req, res, next) => {
 const edit: RequestHandler = async (req, res, next) => {
   try {
     const userId = req.params.id;
-    const [affectedCount] = await User.update(req.body, {
+    const { password, is_admin, ...updateData } = req.body;
+    const [affectedCount] = await User.update(updateData, {
       where: { id: userId },
     });
 
@@ -105,10 +113,11 @@ const register: RequestHandler = async (req, res, next) => {
     // 2. Vérifier si l'utilisateur existe déjà
     const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
-      res.status(400).json({
-        error: "Un utilisateur avec cet email existe déjà",
-      });
-      return;
+      const errorMessage =
+        existingUser.email === email
+          ? "Un utilisateur avec cet email existe déjà"
+          : "Ce pseudonyme est déjà utilisé";
+      return res.status(409).json({ error: errorMessage });
     }
 
     // 3. Hasher le mot de passe
@@ -116,14 +125,10 @@ const register: RequestHandler = async (req, res, next) => {
 
     // 4. Gérer les fichiers uploadés via req.files
     const files = req.files as MulterFiles;
-    let avatar_url: string | undefined = undefined;
-    let vehicle_photo_url: string | undefined = undefined;
+    let avatar_url: string | undefined;
 
     if (files.avatar?.[0]) {
       avatar_url = `/uploads/avatars/${files.avatar[0].filename}`;
-    }
-    if (files.vehicle_photo?.[0]) {
-      vehicle_photo_url = `/uploads/vehicle_photos/${files.vehicle_photo[0].filename}`;
     }
 
     // 5. Créer l'utilisateur en base de données avec la bonne URL d'avatar
@@ -165,30 +170,19 @@ const login: RequestHandler = async (req, res, next) => {
 
     const user = await User.findOne({ where: { email } });
     if (!user) {
-      res.status(401).json({
-        error: "Email ou mot de passe incorrect",
-      });
-      return;
+      return res.status(401).json({ error: "Email ou mot de passe incorrect" });
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      res.status(401).json({
-        error: "Email ou mot de passe incorrect",
-      });
-      return;
+      return res.status(401).json({ error: "Email ou mot de passe incorrect" });
     }
 
     const jwtSecret = process.env.JWT_SECRET as string;
 
-    const token = jwt.sign(
-      {
-        id: user.id,
-        isAdmin: user.is_admin,
-      },
-      jwtSecret,
-      { expiresIn: process.env.JWT_EXPIRES_IN || "24h" } as jwt.SignOptions,
-    );
+    const token = jwt.sign({ id: user.id, isAdmin: user.is_admin }, jwtSecret, {
+      expiresIn: process.env.JWT_EXPIRES_IN || "24h",
+    } as jwt.SignOptions);
 
     const baseUrl = `${req.protocol}://${req.get("host")}`;
     const avatarUrl = user.avatar_url ? `${baseUrl}${user.avatar_url}` : null;
@@ -225,10 +219,7 @@ const logout: RequestHandler = async (req, res, next) => {
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
     });
-
-    res.json({
-      message: "Déconnexion réussie",
-    });
+    res.json({ message: "Déconnexion réussie" });
   } catch (err) {
     next(err);
   }
@@ -237,8 +228,7 @@ const logout: RequestHandler = async (req, res, next) => {
 const check: RequestHandler = async (req: AuthRequest, res, next) => {
   try {
     if (!req.user) {
-      res.status(401).json({ error: "Utilisateur non authentifié." });
-      return;
+      return res.status(401).json({ error: "Utilisateur non authentifié." });
     }
 
     const userFromDb = await User.findByPk(req.user.id, {
@@ -246,13 +236,12 @@ const check: RequestHandler = async (req: AuthRequest, res, next) => {
     });
 
     if (!userFromDb) {
-      res.status(404).json({ error: "Utilisateur non trouvé en BDD." });
-      return;
+      return res.status(404).json({ error: "Utilisateur non trouvé en BDD." });
     }
 
     const baseUrl = `${req.protocol}://${req.get("host")}`;
     const avatarUrl = userFromDb.avatar_url
-      ? `${baseUrl}/api/uploads/avatars/${userFromDb.avatar_url}`
+      ? `${baseUrl}${userFromDb.avatar_url}`
       : null;
 
     res.json({
@@ -274,10 +263,7 @@ const forgotPassword: RequestHandler = async (req, res, next) => {
     const user = await User.findOne({ where: { email } });
 
     if (!user) {
-      res.json({
-        message: "Si l'email existe, un lien a été envoyé.",
-      });
-      return;
+      return res.json({ message: "Si l'email existe, un lien a été envoyé." });
     }
     const token = crypto.randomBytes(32).toString("hex");
     const tokenExpiry = new Date(Date.now() + 1000 * 60 * 60);
@@ -289,7 +275,7 @@ const forgotPassword: RequestHandler = async (req, res, next) => {
     const transporter = nodemailer.createTransport({
       host: process.env.EMAIL_HOST,
       port: Number(process.env.EMAIL_PORT),
-      secure: false,
+      secure: Number(process.env.EMAIL_PORT) === 465,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
@@ -305,9 +291,7 @@ const forgotPassword: RequestHandler = async (req, res, next) => {
       html: `<p>Pour réinitialiser votre mot de passe, cliquez sur ce lien : <a href="${resetUrl}">${resetUrl}</a></p>`,
     });
 
-    res.json({
-      message: "Si l'email existe, un lien a été envoyé.",
-    });
+    res.json({ message: "Si l'email existe, un lien a été envoyé." });
   } catch (err) {
     next(err);
   }
@@ -319,10 +303,9 @@ const resetPassword: RequestHandler = async (req, res, next) => {
 
     // Vérification de la longueur du mot de passe
     if (!password || password.length < 6) {
-      res
+      return res
         .status(400)
         .json({ message: "Le mot de passe doit faire au moins 6 caractères." });
-      return;
     }
 
     const user = await User.findOne({
@@ -333,11 +316,10 @@ const resetPassword: RequestHandler = async (req, res, next) => {
     });
 
     if (!user) {
-      res.status(400).json({ message: "Lien invalide ou expiré." });
-      return;
+      return res.status(400).json({ message: "Lien invalide ou expiré." });
     }
 
-    user.password = await bcrypt.hash(password, 10);
+    user.password = await bcrypt.hash(password, 12);
     user.reset_token = null;
     user.reset_token_expiry = null;
     await user.save();
@@ -350,8 +332,10 @@ const resetPassword: RequestHandler = async (req, res, next) => {
 
 const getMe = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
-    console.log("ID utilisateur reçu dans getMe :", req.user?.id);
-    const user = await User.findByPk(req.user?.id, {
+    if (!req.user?.id) {
+      return res.status(401).json({ message: "Non authentifié" });
+    }
+    const user = await User.findByPk(req.user.id, {
       attributes: {
         exclude: ["password", "reset_token", "reset_token_expiry"],
       },
@@ -360,8 +344,7 @@ const getMe = async (req: AuthRequest, res: Response, next: NextFunction) => {
       ],
     });
     if (!user) {
-      res.status(404).json({ message: "Utilisateur non trouvé" });
-      return;
+      return res.status(404).json({ message: "Utilisateur non trouvé" });
     }
     res.json(user);
   } catch (err) {
