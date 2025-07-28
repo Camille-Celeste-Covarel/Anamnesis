@@ -160,3 +160,7 @@ Pour démarrer un nouveau projet basé sur Anamnesis :
 ## 📜 Licence
 
 Ce projet est sous licence Apache 2.0. Voir le fichier `LICENSE` pour plus de détails.
+
+## Contributeur 
+
+Login par @Dias-Jonathan-dev
