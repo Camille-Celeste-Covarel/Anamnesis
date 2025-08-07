@@ -50,7 +50,7 @@ const read: RequestHandler = async (req, res, next) => {
 
 // L'opération BREAD : Add (Create)
 // Ajoute un nouvel utilisateur à la base de données.
-const add: RequestHandler = async (req, res, next) => {
+const add: RequestHandler = async (req, res) => {
   res.status(501).json({ message: "Fonction non implémentée." });
 };
 

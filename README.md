@@ -36,13 +36,13 @@ Ce projet combine une interface React performante avec un serveur Node.js solide
 
 ## 👩‍💻 À propos de la créatrice
 
-<img src="./affiche-mucha-printemps.jpg" alt="Avatar de Constance" width="150" align="left" style="border-radius: 50%; margin-right: 20px;"/>
+<img src="./affiche-mucha-printemps.jpg" alt="Avatar de Constance" width="590" style="border-radius: 50%; margin-right: 20px;"/>
 
 Ce template a été conçu et développé par **Camille Céleste Covarel** (Constance-Tlse sur GitHub). Passionnée par le développement web, j'ai créé "Anamnesis" pour accélérer le démarrage de mes projets personnels avec une base solide et moderne.
 
 N'hésitez pas à explorer mes autres projets sur [mon profil GitHub](https://github.com/Constance-Tlse) ou à me contacter.
 
-<br clear="left"/>
+<br/>
 
 ---
 

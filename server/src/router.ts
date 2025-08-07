@@ -1,6 +1,5 @@
 import path from "node:path";
 import express from "express";
-import upload from "./config/multer";
 import isAdmin from "./middleware/isAdmin";
 import authenticateToken from "./middleware/isConnected";
 import uploadAvatar from "./middleware/uploadAvatar";
