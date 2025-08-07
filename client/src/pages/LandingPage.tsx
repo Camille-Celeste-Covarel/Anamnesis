@@ -25,7 +25,6 @@ function LandingPage() {
           <AnamnesisLogo className="hero-logo" aria-label="Logo Anamnesis" />
           <p className="subtitle">
             <strong>Anamnesis</strong> est un{" "}
-            <strong>framework full-stack</strong> moderne pour se lancer sans s'égarer :)
           </p>
           <div className="cta-buttons">
             <a
