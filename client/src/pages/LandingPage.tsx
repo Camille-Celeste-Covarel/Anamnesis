@@ -25,8 +25,6 @@ function LandingPage() {
           <AnamnesisLogo className="hero-logo" aria-label="Logo Anamnesis" />
           <p className="subtitle">
             <strong>Anamnesis</strong> est un{" "}
-            <strong>template full-stack</strong> moderne pour démarrer vos
-            projets en un éclair.
           </p>
           <div className="cta-buttons">
             <a
@@ -49,7 +47,7 @@ function LandingPage() {
               <span className="feature-icon-wrapper">
                 <SiReact className="feature-icon" />
               </span>
-              <h3>Frontend React & Vite</h3>
+              <h3>React & Vite</h3>
               <p>
                 Une interface utilisateur réactive et une expérience de
                 développement ultra-rapide.
