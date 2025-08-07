@@ -1,13 +1,5 @@
-import type { NextFunction, Request, Response } from "express";
-
-// On étend le type Request d'Express pour inclure la propriété `user`
-// que le middleware `authenticateToken` est censé ajouter.
-interface AuthenticatedRequest extends Request {
-  user?: {
-    id: string;
-    isAdmin: boolean;
-  };
-}
+import type { NextFunction, Response } from "express";
+import type { AuthenticatedRequest } from "../types/middleware/middlewareTypes";
 
 const isAdmin = (
   req: AuthenticatedRequest,

@@ -1,32 +1,64 @@
+import type React from "react";
 import { useState } from "react";
-
-import "../stylesheets/forgotpassword.css";
+import "../stylesheets/pages/forgotpassword.css";
 
 function ForgotPassword() {
   const [email, setEmail] = useState<string>("");
   const [confirmationEmail, setConfirmationEmail] = useState<string>("");
   const [infoMessage, setInfoMessage] = useState<string>("");
+  const [isError, setIsError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setInfoMessage("");
+    setIsError(false);
+    setIsLoading(true);
+
     if (confirmationEmail !== email) {
       setInfoMessage("Les adresses mail ne correspondent pas.");
+      setIsError(true);
+      setIsLoading(false);
       return;
     }
 
     try {
-      await fetch(`${import.meta.env.VITE_API_URL}/api/auth/forgot-password`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/auth/forgot-password`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        },
+      );
       setInfoMessage(
         "Si l'adresse mail saisie est bien valide, vous recevrez par mail un lien pour réinitialiser votre mot de passe !",
       );
-      setEmail("");
-      setConfirmationEmail("");
+
+      if (!response.ok) {
+        setIsError(true);
+        setInfoMessage(
+          "Le service est momentanément indisponible. Veuillez réessayer plus tard.",
+        );
+      } else {
+        setIsError(false);
+        setInfoMessage(
+          "Si un compte est associé à cette adresse, un e-mail de réinitialisation a été envoyé.",
+        );
+        setEmail("");
+        setConfirmationEmail("");
+      }
     } catch (error) {
-      setInfoMessage("Une erreur est survenue. Veuillez réessayer plus tard.");
+      setIsError(true);
+      if (error instanceof Error) {
+        setInfoMessage(
+          "Erreur de connexion. Veuillez vérifier votre réseau et réessayer.",
+        );
+      } else {
+        setInfoMessage("Une erreur inattendue est survenue.");
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -49,6 +81,7 @@ function ForgotPassword() {
             onChange={(e) => setEmail(e.target.value)}
             required
             placeholder="Tapez votre adresse mail"
+            disabled={isLoading}
           />
         </div>
         <label htmlFor="confirmation-email">Confirmation adresse mail</label>
@@ -60,13 +93,18 @@ function ForgotPassword() {
             onChange={(e) => setConfirmationEmail(e.target.value)}
             required
             placeholder="Veuillez confirmer votre mail"
+            disabled={isLoading}
           />
         </div>
-        <button type="submit" className="button-classic">
-          Réinitialiser le mot de passe
+        <button type="submit" className="button-classic" disabled={isLoading}>
+          {isLoading ? "Envoi en cours..." : "Réinitialiser le mot de passe"}
         </button>
       </form>
-      {infoMessage && <div className="info-message">{infoMessage}</div>}
+      {infoMessage && (
+        <div className={`info-message ${isError ? "error" : "success"}`}>
+          {infoMessage}
+        </div>
+      )}
     </div>
   );
 }

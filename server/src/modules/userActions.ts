@@ -5,13 +5,12 @@ import type { NextFunction, Response } from "express";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
 import { Op } from "sequelize";
-import type { AuthRequest } from "../middleware/isConnected";
 import { User } from "../models/_index";
+import type { AuthRequest } from "../types/middleware/middlewareTypes";
 
 // Ajoute ceci :
 interface MulterFiles {
   avatar?: Express.Multer.File[];
-  vehicle_photo?: Express.Multer.File[];
 }
 
 // L'opération BREAD : Browse (Read All)
@@ -51,7 +50,7 @@ const read: RequestHandler = async (req, res, next) => {
 
 // L'opération BREAD : Add (Create)
 // Ajoute un nouvel utilisateur à la base de données.
-const add: RequestHandler = async (req, res, next) => {
+const add: RequestHandler = async (req, res) => {
   res.status(501).json({ message: "Fonction non implémentée." });
 };
 
@@ -247,6 +246,7 @@ const check: RequestHandler = async (req: AuthRequest, res, next) => {
     res.json({
       authenticated: true,
       user: {
+        id: userFromDb.id,
         firstName: userFromDb.first_name,
         isAdmin: userFromDb.is_admin,
         avatarUrl: avatarUrl,
@@ -346,7 +346,97 @@ const getMe = async (req: AuthRequest, res: Response, next: NextFunction) => {
     if (!user) {
       return res.status(404).json({ message: "Utilisateur non trouvé" });
     }
-    res.json(user);
+
+    const baseUrl = `${req.protocol}://${req.get("host")}`;
+    const avatarUrl = user.avatar_url ? `${baseUrl}${user.avatar_url}` : null;
+
+    const userResponse = {
+      id: user.id,
+      email: user.email,
+      firstName: user.first_name,
+      lastName: user.last_name,
+      birthdate: user.birthdate,
+      address: user.address,
+      addressBis: user.address_bis,
+      city: user.city,
+      postcode: user.postcode,
+      country: user.country,
+      gender: user.gender,
+      isAdmin: user.is_admin,
+      avatarUrl,
+    };
+    res.json(userResponse);
+  } catch (err) {
+    next(err);
+  }
+};
+
+const updateAvatar = async (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    if (!req.user?.id) {
+      return res.status(401).json({ message: "Non authentifié" });
+    }
+
+    if (!req.file) {
+      return res
+        .status(400)
+        .json({ message: "Aucun fichier d'avatar fourni." });
+    }
+
+    const avatar_url = `/uploads/avatars/${req.file.filename}`;
+
+    await User.update({ avatar_url }, { where: { id: req.user.id } });
+
+    const baseUrl = `${req.protocol}://${req.get("host")}`;
+    const fullAvatarUrl = `${baseUrl}${avatar_url}`;
+
+    res.json({
+      message: "Avatar mis à jour avec succès.",
+      avatarUrl: fullAvatarUrl,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const changePassword = async (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { oldPassword, newPassword } = req.body;
+    const userId = req.user?.id;
+
+    if (!userId) {
+      return res.status(401).json({ message: "Non authentifié" });
+    }
+    if (!oldPassword || !newPassword || newPassword.length < 6) {
+      return res.status(400).json({
+        message: "Le nouveau mot de passe doit contenir au moins 6 caractères.",
+      });
+    }
+
+    const user = await User.findByPk(userId);
+    if (!user) {
+      return res.status(404).json({ message: "Utilisateur non trouvé." });
+    }
+
+    const isPasswordValid = await bcrypt.compare(oldPassword, user.password);
+    if (!isPasswordValid) {
+      return res
+        .status(403)
+        .json({ message: "L'ancien mot de passe est incorrect." });
+    }
+
+    user.password = await bcrypt.hash(newPassword, 12);
+    await user.save();
+
+    res.json({ message: "Mot de passe mis à jour avec succès." });
   } catch (err) {
     next(err);
   }
@@ -365,4 +455,6 @@ export default {
   resetPassword,
   check,
   getMe,
+  updateAvatar,
+  changePassword,
 };

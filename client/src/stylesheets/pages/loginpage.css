@@ -14,8 +14,14 @@ input::placeholder {
 }
 
 .login-forgot-password {
-  color: blue;
+  color: var(--seconde-color);
   font-style: italic;
   border: none;
   background-color: transparent;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.login-forgot-password:hover {
+  color: var(--tierce-color);
 }

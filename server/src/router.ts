@@ -1,6 +1,5 @@
 import path from "node:path";
 import express from "express";
-import upload from "./config/multer";
 import isAdmin from "./middleware/isAdmin";
 import authenticateToken from "./middleware/isConnected";
 import uploadAvatar from "./middleware/uploadAvatar";
@@ -42,8 +41,12 @@ router.use(authenticateToken);
 
 // Route pour les users
 router.get("/users/me", userActions.getMe);
-
-// Route pour récupérer son propre profil (exemple)
+router.patch(
+  "/users/me/avatar",
+  uploadAvatar.single("avatar"),
+  userActions.updateAvatar,
+);
+router.post("/users/me/password", userActions.changePassword);
 
 /* ************************************************************************* */
 // 👑 Wall d'administration - Tout ce qui suit nécessite d'être Admin

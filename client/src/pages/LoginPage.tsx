@@ -1,13 +1,16 @@
 import { useState } from "react";
+import { isMobile } from "react-device-detect";
 import { useNavigate } from "react-router";
 import { useAuth } from "../contexts/AuthContext.tsx";
-import "../stylesheets/loginpage.css";
+import { useOverlay } from "../contexts/OverlayContext/OverlayContext.tsx";
+import "../stylesheets/pages/loginpage.css";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { openOverlay } = useOverlay();
   const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -37,6 +40,22 @@ function LoginPage() {
     } catch (error) {
       console.error("Erreur: ", error);
       setError("Erreur de connexion");
+    }
+  };
+
+  const handleForgotPasswordClick = () => {
+    if (isMobile) {
+      navigate("/forgot-password");
+    } else {
+      openOverlay("#forgot-password");
+    }
+  };
+
+  const handleRegisterClick = () => {
+    if (isMobile) {
+      navigate("/register");
+    } else {
+      openOverlay("#register");
     }
   };
 
@@ -71,9 +90,7 @@ function LoginPage() {
             <button
               type="button"
               className="login-forgot-password"
-              onClick={() => {
-                navigate("/forgot-password");
-              }}
+              onClick={handleForgotPasswordClick}
             >
               Mot de passe oublié ?
             </button>
@@ -93,7 +110,7 @@ function LoginPage() {
         <button
           type="button"
           className="button-classic"
-          onClick={() => navigate("/register")}
+          onClick={handleRegisterClick}
         >
           S'inscrire !
         </button>

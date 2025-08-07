@@ -1,0 +1,168 @@
+.profil-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #f0f2f5;
+  min-height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.profil-header {
+  background-color: var(--fondamental-color);
+  color: white;
+  padding: 2rem;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.profil-content {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.profil-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  border: solid 4px transparent;
+  background-clip: padding-box;
+}
+
+.profil-avatar-default {
+  width: 120px;
+  height: 120px;
+  color: #ccc;
+  flex-shrink: 0;
+}
+
+.profil-avatar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  margin: -4px;
+  border-radius: inherit;
+  background: linear-gradient(45deg, var(--tierce-color), var(--quarte-color));
+}
+
+.profil-names {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.profil-names h2 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: white;
+}
+
+.profil-names p,
+.profil-infos p {
+  margin: 0.2rem 0;
+}
+
+.profil-names p {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.profil-section {
+  background-color: white;
+  padding: 1.5rem 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.profil-section h3 {
+  font-size: 1.3rem;
+  color: var(--fondamental-color);
+  margin-top: 0;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.profil-infos {
+  text-align: left;
+}
+
+.profil-infos p strong {
+  color: var(--fondamental-color);
+  font-weight: 600;
+}
+
+.avatar-form {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.profil-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Styles des boutons inspirés de la landing page pour la cohérence */
+.cta-button {
+  padding: 12px 28px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border-width: 3px;
+  border-style: solid;
+  border-image: linear-gradient(45deg, var(--tierce-color), var(--quarte-color))
+    1;
+}
+
+/* Le label doit se comporter comme un bouton */
+.avatar-form label.cta-button {
+  display: inline-block;
+}
+
+.cta-button.primary {
+  background-color: var(--tierce-color);
+  color: var(--fondamental-color);
+}
+
+.cta-button.primary:hover {
+  background-color: var(--quarte-color);
+}
+
+.cta-button.secondary {
+  background-color: transparent;
+  color: var(--tierce-color);
+}
+
+.cta-button.secondary:hover {
+  background-color: var(--tierce-color);
+  color: var(--fondamental-color);
+}
+
+.cta-button.danger {
+  border-image: linear-gradient(45deg, var(--seconde-color), #c1351e) 1;
+  background-color: transparent;
+  color: var(--seconde-color);
+}
+
+.cta-button.danger:hover {
+  background-color: var(--seconde-color);
+  color: white;
+}

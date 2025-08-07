@@ -1,22 +1,24 @@
 import { isMobile } from "react-device-detect";
-import { FaGithubAlt } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext";
+import { Link } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext.tsx";
 import { ProfileDropdown } from "./ProfileDropdown";
-import "./Header.css";
+import "../../stylesheets/components/Header.css";
 
 function Header() {
-  const navigate = useNavigate();
   const { isAdmin } = useAuth();
 
   const renderDesktopNav = () => (
     <div className="desktop-nav-container">
       <nav className="desktop-nav-links">
-        <Link to="/">Carte</Link>
-        <Link to="/reservations">Mes réservations</Link>
-        <Link to="/contact">Assistance</Link>
-        <Link to="/informations">Informations</Link>
-        {isAdmin && <Link to="/admin/dashboard">Dashboard Admin</Link>}
+        <Link to="/item1">Item 1</Link>
+        <Link to="/item2">Item 2</Link>
+        <Link to="/item3">Item 3</Link>
+        <Link to="/item4">Item 4</Link>
+        {isAdmin && (
+          <Link to="/admin/dashboard" className="desktop-nav-link-button">
+            Dashboard Admin
+          </Link>
+        )}
       </nav>
       <ProfileDropdown />
     </div>
@@ -26,18 +28,14 @@ function Header() {
 
   return (
     <header className="topbar-container">
-      <button
-        type="button"
+      <Link
+        to="/"
         className="logo-button"
-        onClick={() => navigate("/")}
         title="Retour à l'accueil"
+        aria-label="Retour à l'accueil"
       >
-        <FaGithubAlt
-          className="logo-icon"
-          size={40}
-          style={{ color: "white" }}
-        />
-      </button>
+        <h2>Anamnesis</h2>
+      </Link>
 
       {isMobile ? renderMobileNav() : renderDesktopNav()}
     </header>

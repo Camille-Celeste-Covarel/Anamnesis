@@ -1,12 +1,15 @@
 import { useEffect, useRef, useState } from "react";
+import { isMobile } from "react-device-detect";
 import { FaUserCircle } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "../../contexts/AuthContext";
-import "./ProfileDropdown.css";
+import { useOverlay } from "../../contexts/OverlayContext/OverlayContext";
+import "../../stylesheets/components/ProfileDropdown.css";
 
 export function ProfileDropdown() {
   const { user, isAuthenticated, logout, isLoading } = useAuth();
+  const { openOverlay } = useOverlay();
   const navigate = useNavigate();
   const [isMenuVisible, setMenuVisible] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -30,11 +33,28 @@ export function ProfileDropdown() {
   const handleLogout = () => {
     logout();
     setMenuVisible(false);
-    navigate("/");
   };
 
   const toggleMenu = () => {
     setMenuVisible((prev) => !prev);
+  };
+
+  const handleProfileClick = () => {
+    if (isMobile) {
+      navigate("/profil");
+    } else {
+      openOverlay("#profil");
+    }
+    setMenuVisible(false);
+  };
+
+  const handleLoginClick = () => {
+    if (isMobile) {
+      navigate("/login");
+    } else {
+      openOverlay("#login");
+    }
+    setMenuVisible(false);
   };
 
   if (isLoading) {
@@ -63,13 +83,13 @@ export function ProfileDropdown() {
             <>
               <p className="dropdown-greeting">Bonjour, {user.firstName}</p>
               <hr className="dropdown-divider" />
-              <Link
-                to="/profil"
+              <button
+                type="button"
                 className="dropdown-item"
-                onClick={() => setMenuVisible(false)}
+                onClick={handleProfileClick}
               >
                 Mon Profil
-              </Link>
+              </button>
               <button
                 type="button"
                 className="dropdown-item"
@@ -79,13 +99,13 @@ export function ProfileDropdown() {
               </button>
             </>
           ) : (
-            <Link
-              to="/login"
+            <button
+              type="button"
               className="dropdown-item"
-              onClick={() => setMenuVisible(false)}
+              onClick={handleLoginClick}
             >
               Se connecter
-            </Link>
+            </button>
           )}
         </div>
       )}

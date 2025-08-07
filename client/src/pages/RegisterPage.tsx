@@ -1,37 +1,8 @@
 import { useState } from "react";
 import { FaEye, FaEyeSlash, FaUserCircle } from "react-icons/fa";
 import { useNavigate } from "react-router";
-import "../stylesheets/registerpage.css";
-
-interface FormData {
-  // Uniquement les champs User
-  first_name: string;
-  last_name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  gender: string;
-  birthdate: string;
-  address: string;
-  address_bis: string;
-  city: string;
-  postcode: string;
-  country: string;
-}
-
-interface FormErrors {
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  password?: string;
-  confirmPassword?: string;
-  gender?: string;
-  birthdate?: string;
-  address?: string;
-  city?: string;
-  postcode?: string;
-  country?: string;
-}
+import "../stylesheets/pages/registerpage.css";
+import type { FormData, FormErrors } from "../types/pages/PagesTypes";
 
 function RegisterPage() {
   const navigate = useNavigate();

@@ -1,3 +1,4 @@
+import type React from "react";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 
@@ -9,19 +10,31 @@ function ResetPassword() {
   const [password, setPassword] = useState<string>("");
   const [confirmationPassword, setConfirmationPassword] = useState<string>("");
   const [infoMessage, setInfoMessage] = useState<string>("");
+  const [isError, setIsError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setInfoMessage("");
+    setIsError(false);
+    setIsLoading(true);
+
     if (confirmationPassword !== password) {
+      setIsError(true);
       setInfoMessage("Les mots de passe ne correspondent pas.");
-      return;
-    }
-    if (!token) {
-      setInfoMessage("Lien invalide ou expiré.");
+      setIsLoading(false);
       return;
     }
     if (password.length < 6) {
+      setIsError(true);
       setInfoMessage("Le mot de passe doit faire au moins 6 caractères.");
+      setIsLoading(false);
+      return;
+    }
+    if (!token) {
+      setIsError(true);
+      setInfoMessage("Lien invalide ou expiré. Veuillez refaire une demande.");
+      setIsLoading(false);
       return;
     }
 
@@ -35,11 +48,27 @@ function ResetPassword() {
         },
       );
       const data = await response.json();
-      setInfoMessage(data.message);
-      setPassword("");
-      setConfirmationPassword("");
+
+      if (!response.ok) {
+        setIsError(true);
+        setInfoMessage(data.message || "Une erreur est survenue.");
+      } else {
+        setIsError(false);
+        setInfoMessage(data.message);
+        setPassword("");
+        setConfirmationPassword("");
+      }
     } catch (error) {
-      setInfoMessage("Une erreur est survenue. Veuillez réessayer plus tard.");
+      setIsError(true);
+      if (error instanceof Error) {
+        setInfoMessage(error.message);
+      } else {
+        setInfoMessage(
+          "Une erreur réseau inattendue est survenue. Veuillez réessayer.",
+        );
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -72,13 +101,18 @@ function ResetPassword() {
             onChange={(e) => setConfirmationPassword(e.target.value)}
             required
             placeholder="Nouveau mot de passe"
+            disabled={isLoading}
           />
         </div>
-        <button type="submit" className="button-classic">
-          Réinitialisez le mot de passe
+        <button type="submit" className="button-classic" disabled={isLoading}>
+          {isLoading ? "Réinitialisation..." : "Réinitialiser le mot de passe"}
         </button>
       </form>
-      {infoMessage && <div className="info-message">{infoMessage}</div>}
+      {infoMessage && (
+        <div className={`info-message ${isError ? "error" : "success"}`}>
+          {infoMessage}
+        </div>
+      )}
     </div>
   );
 }
