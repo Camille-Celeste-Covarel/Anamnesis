@@ -11,6 +11,11 @@ Thanks Temani Afif for css hover effect :)
   justify-content: space-between;
   position: relative;
   z-index: 950;
+
+  h2 {
+    color: white;
+    font-size: 14pt;
+  }
 }
 
 .logo-button {
@@ -18,10 +23,22 @@ Thanks Temani Afif for css hover effect :)
   border: none;
   cursor: pointer;
   padding: 0;
+  text-decoration: none;
 }
 
 .logo {
   height: 30px;
+}
+
+.logo-text {
+  font-family: "Glass Antiqua", cursive;
+  font-size: 2rem;
+  font-weight: 400;
+  font-style: revert;
+  color: white;
+  text-decoration: none;
+  text-transform: lowercase;
+  letter-spacing: 1.5px;
 }
 
 .login-button,
@@ -51,29 +68,46 @@ Thanks Temani Afif for css hover effect :)
   gap: 25px;
 }
 
-.desktop-nav-links a {
+.desktop-nav-link-button {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.desktop-nav-links a,
+.desktop-nav-link-button {
   text-decoration: none;
   color: white;
   font-weight: 600;
   font-size: 1.15rem;
-
-  --c: linear-gradient(white, white);
-
   padding-bottom: 0.35em;
 
+  --c: linear-gradient(white, white);
   background: var(--c), var(--c);
-  background-size: 0.4em 4px;
-  background-position: 50% 100%;
   background-repeat: no-repeat;
-
   transition: color 0.3s, background-position 0.3s, background-size 0.3s 0.2s;
 }
 
+.desktop-nav-links a {
+  background-size: 0.4em 4px;
+  background-position: 50% 100%;
+}
 .desktop-nav-links a:hover {
   color: var(--quinte-color);
-
   background-size: 40% 2px;
   background-position: 10% 100%, 90% 100%;
+}
+
+.desktop-nav-link-button {
+  background-size: 40% 2px;
+  background-position: 10% 100%, 90% 100%;
+}
+.desktop-nav-link-button:hover {
+  color: var(--quinte-color);
+  background-size: 0.4em 4px;
+  background-position: 50% 100%;
 }
 
 .user-menu {
@@ -106,9 +140,4 @@ Thanks Temani Afif for css hover effect :)
   width: 40px;
   color: rgba(255, 255, 255, 0.7);
   transition: transform 0.2s ease-in-out;
-}
-
-.user-avatar-button:hover .user-avatar,
-.user-avatar-button:hover .user-avatar-default-icon {
-  transform: scale(1.1);
 }

@@ -1,27 +1,29 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-// @ts-ignore
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 import App from "./App";
 import AdminDashboard from "./pages/AdminDashboard.tsx";
+import ChangePasswordPage from "./pages/ChangePasswordPage.tsx";
+import ErrorPage from "./pages/ErrorPage.tsx";
 import ForgotPassword from "./pages/ForgotPassword.tsx";
-import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
+import LandingPage from "./pages/LandingPage.tsx";
+import LoginPage from "./pages/LoginPage.tsx";
+import ProfilePage from "./pages/ProfilePage.tsx";
+import RegisterPage from "./pages/RegisterPage.tsx";
 import ResetPassword from "./pages/ResetPassword.tsx";
 import AdminRoute from "./utils/AdminRoute.tsx";
-// @ts-ignore
-import ProtectedRoute from "./utils/ProtectedRoute";
+import ProtectedRoute from "./utils/ProtectedRoute.tsx";
 
 const router = createBrowserRouter([
   {
     element: <App />,
+    errorElement: <ErrorPage />,
     children: [
       {
         index: true,
-        element: <App />,
+        element: <LandingPage />,
       },
       {
         path: "/login",
@@ -50,17 +52,25 @@ const router = createBrowserRouter([
             <AdminDashboard />
           </AdminRoute>
         ),
-        handle: { isOverlay: true },
       },
-      /*      {
-        path: "/exemple",
+      {
+        path: "/profil",
         element: (
           <ProtectedRoute>
-            <Exemple />
+            <ProfilePage />
           </ProtectedRoute>
         ),
-        handle: { isOverlay: true }, // if it doesn't use, delete this
-      },*/
+        handle: { isOverlay: true },
+      },
+      {
+        path: "/change-password",
+        element: (
+          <ProtectedRoute>
+            <ChangePasswordPage />
+          </ProtectedRoute>
+        ),
+        handle: { isOverlay: true },
+      },
     ],
   },
 ]);
@@ -76,7 +86,6 @@ createRoot(rootElement).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
-      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
     </QueryClientProvider>
   </StrictMode>,
 );

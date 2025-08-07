@@ -42,8 +42,12 @@ router.use(authenticateToken);
 
 // Route pour les users
 router.get("/users/me", userActions.getMe);
-
-// Route pour récupérer son propre profil (exemple)
+router.patch(
+  "/users/me/avatar",
+  uploadAvatar.single("avatar"),
+  userActions.updateAvatar,
+);
+router.post("/users/me/password", userActions.changePassword);
 
 /* ************************************************************************* */
 // 👑 Wall d'administration - Tout ce qui suit nécessite d'être Admin

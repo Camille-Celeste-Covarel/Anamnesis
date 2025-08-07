@@ -1,15 +1,9 @@
-import "./Footer.css";
-
 import { isMobile } from "react-device-detect";
-import {
-  FaCalendarCheck,
-  FaEnvelope,
-  FaInfoCircle,
-  FaMapMarkedAlt,
-  FaUserShield,
-} from "react-icons/fa";
+import { FaBook, FaComments, FaLightbulb, FaUserShield } from "react-icons/fa";
+import { TbSpeakerphone } from "react-icons/tb";
 import { useNavigate } from "react-router";
 import { useAuth } from "../../contexts/AuthContext";
+import "../../stylesheets/components/Footer.css";
 
 function Footer() {
   const navigate = useNavigate();
@@ -17,21 +11,25 @@ function Footer() {
   const iconSize = 35;
 
   const navItems = [
-    { path: "/", title: "Carte", icon: <FaMapMarkedAlt size={iconSize} /> },
     {
-      path: "/reservations",
-      title: "Mes réservations",
-      icon: <FaCalendarCheck size={iconSize} />,
+      path: "/le-mur",
+      title: "Le Mur",
+      icon: <TbSpeakerphone size={iconSize} />,
     },
     {
-      path: "/contact",
-      title: "Nous contacter",
-      icon: <FaEnvelope size={iconSize} />,
+      path: "/Item-1",
+      title: "Item 1",
+      icon: <FaBook size={iconSize} />,
     },
     {
-      path: "/informations",
-      title: "Informations",
-      icon: <FaInfoCircle size={iconSize} />,
+      path: "/Item-2",
+      title: "Item 2",
+      icon: <FaComments size={iconSize} />,
+    },
+    {
+      path: "/Item-3",
+      title: "Item 3",
+      icon: <FaLightbulb size={iconSize} />,
     },
   ];
 
