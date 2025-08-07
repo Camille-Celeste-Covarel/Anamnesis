@@ -12,23 +12,23 @@ function Footer() {
 
   const navItems = [
     {
-      path: "/le-mur",
-      title: "Le Mur",
-      icon: <TbSpeakerphone size={iconSize} />,
-    },
-    {
       path: "/Item-1",
       title: "Item 1",
-      icon: <FaBook size={iconSize} />,
+      icon: <TbSpeakerphone size={iconSize} />,
     },
     {
       path: "/Item-2",
       title: "Item 2",
-      icon: <FaComments size={iconSize} />,
+      icon: <FaBook size={iconSize} />,
     },
     {
       path: "/Item-3",
       title: "Item 3",
+      icon: <FaComments size={iconSize} />,
+    },
+    {
+      path: "/Item-4",
+      title: "Item 4",
       icon: <FaLightbulb size={iconSize} />,
     },
   ];

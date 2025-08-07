@@ -31,6 +31,9 @@ function ForgotPassword() {
           body: JSON.stringify({ email }),
         },
       );
+      setInfoMessage(
+        "Si l'adresse mail saisie est bien valide, vous recevrez par mail un lien pour réinitialiser votre mot de passe !",
+      );
 
       if (!response.ok) {
         setIsError(true);
