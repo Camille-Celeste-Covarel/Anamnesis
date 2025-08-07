@@ -2,8 +2,6 @@
 
 ![Illustration pour Anamnesis](/Anamnesis.svg)
 
-*Artworks par Astral Requin https://www.deviantart.com/astral-requin/art/Flight-of-the-Bird-286419529*
-
 Anamnesis est un monorepo full-stack personnel servant de base de démarrage (template) pour mes projets. Il est construit avec une stack moderne et robuste, pré-configuré avec des outils de qualité de code pour un développement rapide et efficace.
 
 ---
