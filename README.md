@@ -86,9 +86,9 @@ Suivez ces étapes pour lancer le projet en local.
     # Configuration de la base de données (PostgreSQL)
     DB_USER=votre_user_postgres
     DB_PASS=votre_mot_de_passe
-    DB_HOST=localhost
-    DB_PORT=5432
-    DB_NAME=anamnesis_db
+    DB_HOST=localhost/xxx.xxx.xxx.xxx
+    DB_PORT=XXXX
+    DB_NAME=db_name
     DB_DIALECT=postgres
 
     # Clé secrète pour les jetons JWT (utilisez une chaîne longue et aléatoire)
