@@ -1,0 +1,20 @@
+import type { Request } from "express";
+
+export interface AuthRequest extends Request {
+  user?: {
+    id: string;
+    isAdmin: boolean;
+  };
+}
+
+export interface TokenPayload {
+  id: string;
+  isAdmin: boolean;
+}
+
+export interface AuthenticatedRequest extends Request {
+  user?: {
+    id: string;
+    isAdmin: boolean;
+  };
+}

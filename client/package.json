@@ -1,0 +1,29 @@
+{
+  "name": "@js-monorepo/client",
+  "type": "module",
+  "scripts": {
+    "check-types": "tsc --noEmit",
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.81.5",
+    "@tanstack/react-query-devtools": "^5.83.0",
+    "react": "^19.1.0",
+    "react-device-detect": "^2.2.3",
+    "react-dom": "^19.1.0",
+    "react-icons": "^5.5.0",
+    "react-router": "^7.4.1",
+    "react-router-dom": "^7.6.3",
+    "vite-plugin-svgr": "^4.3.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.12",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^4.3.4",
+    "sequelize": "^6.37.7",
+    "typescript": "^5.8.2",
+    "vite": "^6.2.4"
+  }
+}

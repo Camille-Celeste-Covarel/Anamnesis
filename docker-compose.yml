@@ -1,0 +1,78 @@
+services:
+  # Service Backend (Express.js)
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "3310:3310"
+    environment:
+      - PORT=3310
+      - DB_PORT=5432
+      - LOG_DIR=/app/log
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./server:/app
+      - ./server/logs:/app/logs
+      - /app/node_modules
+    env_file:
+      - ./server/.env.staging.local
+    depends_on:
+      postgres_db:
+        condition: service_healthy
+      redis_cache:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # Service Frontend (React/Vite)
+  frontend:
+    build:
+      context: .
+      dockerfile: ./client/Dockerfile
+    ports:
+      - "3000:80"
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    environment:
+      VITE_API_URL: http://backend:3000
+      VITE_PUBLIC_API_URL: http://localhost:3310
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  postgres_db:
+    image: postgis/postgis:17-3.4-alpine
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: dev
+      POSTGRES_USER: dev
+      POSTGRES_PASSWORD: dev
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis_cache:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  postgres_data:
+  redis_data:
+  csv_cache_volume:
+    driver: local
