@@ -9,7 +9,9 @@ function showDiff(filenames) {
   try {
     const diff = execSync(`git diff --color ${files}`).toString();
     if (diff) {
-      console.log("\n🤖 Biome a automatiquement corrigé les changements suivants :\n");
+      console.log(
+        "\n🤖 Biome a automatiquement corrigé les changements suivants :\n",
+      );
       console.log(diff);
     }
   } catch (e) {

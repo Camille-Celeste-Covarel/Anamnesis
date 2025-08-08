@@ -11,7 +11,7 @@ function Header() {
     <div className="desktop-nav-container">
       <nav className="desktop-nav-links">
         <Link to="/version">Note de version</Link>
-{/*        <Link to="/item2">Item 2</Link>
+        {/*        <Link to="/item2">Item 2</Link>
         <Link to="/item3">Item 3</Link>
         <Link to="/item4">Item 4</Link>*/}
         {isAdmin && (
