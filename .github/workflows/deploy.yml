@@ -32,10 +32,10 @@ jobs:
           cache-dependency-path: '**/package-lock.json'
 
       - name: Install client dependencies
-        run: npm install --workspace=client
+        run: npm install --workspace=@anamnesis/client
 
       - name: Run Biome code quality check
-        run: npm run check --workspace=client
+        run: npm run check --workspace=@anamnesis/client
 
   # --- JOB 2: Construit et pousse l'image Docker après un push sur 'staging' ---
   build:

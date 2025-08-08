@@ -11,13 +11,13 @@ COPY server/package.json ./server/
 # On installe UNIQUEMENT les dépendances (y compris devDependencies) pour le workspace 'client'.
 # C'est la commande clé qui résout le problème d'efficacité.
 # npm est assez intelligent pour piocher aussi les dépendances partagées nécessaires depuis la racine.
-RUN npm install --workspace=@js-monorepo/client
+RUN npm install --workspace=@anamnesis/client
 
 # On ne copie le code source du client qu'après l'installation des dépendances pour optimiser le cache.
 COPY client/ ./client/
 
 # On lance le build pour le client.
-RUN npm run build --workspace=client
+RUN npm run build --workspace=@anamnesis/client
 
 FROM nginx:alpine
 

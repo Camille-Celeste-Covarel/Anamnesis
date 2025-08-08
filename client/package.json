@@ -1,5 +1,5 @@
 {
-  "name": "@js-monorepo/client",
+  "name": "@anamnesis/client",
   "type": "module",
   "scripts": {
     "check-types": "tsc --noEmit",
