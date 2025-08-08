@@ -26,6 +26,7 @@ module.exports = {
         "TEST",
         "MAINTAIN",
         "UPGRADE",
+        "UPDATE",
       ],
     ],
     // Le TYPE doit être en majuscules

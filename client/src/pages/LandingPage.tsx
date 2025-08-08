@@ -1,12 +1,15 @@
 import {
   FaBell,
+  FaGitAlt,
   FaLayerGroup,
   FaMobileAlt,
   FaServer,
+  FaShieldAlt,
   FaWindowMaximize,
 } from "react-icons/fa";
 import {
   SiBiome,
+  SiDocker,
   SiJsonwebtokens,
   SiNodedotjs,
   SiPostgresql,
@@ -139,28 +142,59 @@ function LandingPage() {
               </span>
               <h3>Full TypeScript</h3>
               <p>
-                Un code plus sûr, plus lisible et plus facile à maintenir sur
-                l'ensemble du projet.
+                Un code plus sûr et plus facile à maintenir sur l'ensemble du
+                projet, du front-end au back-end.
               </p>
             </div>
             <div className="feature-card">
               <span className="feature-icon-wrapper">
                 <SiBiome className="feature-icon" />
               </span>
-              <h3>Outillage Moderne</h3>
+              <h3>Linter & Formatteur</h3>
               <p>
-                Biome pour la qualité du code, Commitlint pour des commits
-                standardisés.
+                Biome assure une qualité de code irréprochable et un style
+                uniforme, automatiquement.
+              </p>
+            </div>
+            <div className="feature-card">
+              <span className="feature-icon-wrapper">
+                <FaGitAlt className="feature-icon" />
+              </span>
+              <h3>Hooks Git Automatisés</h3>
+              <p>
+                Husky, lint-staged et commitlint pour garantir des commits
+                propres et des messages standardisés.
+              </p>
+            </div>
+            <div className="feature-card">
+              <span className="feature-icon-wrapper">
+                <FaShieldAlt className="feature-icon" />
+              </span>
+              <h3>Audit de Sécurité</h3>
+              <p>
+                Intégré à la pipeline CI/CD, <code>npm audit</code> scanne les
+                dépendances à chaque push pour prévenir l'introduction de
+                vulnérabilités.
+              </p>
+            </div>
+            <div className="feature-card">
+              <span className="feature-icon-wrapper">
+                <SiDocker className="feature-icon" />
+              </span>
+              <h3>CI/CD avec Docker</h3>
+              <p>
+                Pipeline GitHub Actions qui teste, build une image Docker (React
+                + Nginx) et déploie en continu.
               </p>
             </div>
             <div className="feature-card">
               <span className="feature-icon-wrapper">
                 <FaServer className="feature-icon" />
               </span>
-              <h3>Environnements Pré-configurés</h3>
+              <h3>Environnements de tests</h3>
               <p>
-                Une structure prête pour le déploiement avec des configurations
-                pour le développement, le staging et la production.
+                Configurations prêtes pour le développement et le testing avant
+                mise en production
               </p>
             </div>
           </div>
@@ -169,14 +203,18 @@ function LandingPage() {
         <div className="how-it-works-section">
           <h2 className="section-title">Comment ça marche ?</h2>
           <p>
-            Anamnesis est un <strong>monorepo</strong> : le client (React) et le
-            serveur (Node.js) cohabitent dans le même dépôt Git. Cette structure
-            centralise le code, simplifie la gestion des dépendances et accélère
-            le développement de fonctionnalités complètes.
+            Anamnesis est conçu comme un <strong>socle de départ</strong> pour
+            vos projets full-stack. L'objectif est de vous fournir une base
+            saine et pré-configurée pour que vous puissiez vous concentrer
+            immédiatement sur la logique de votre application, sans vous perdre
+            dans la configuration initiale.
           </p>
           <p>
-            Pour des instructions détaillées sur l'installation et l'utilisation
-            de ce template, consultez le{" "}
+            Le projet est structuré en <strong>monorepo</strong> : le client
+            (React) et le serveur (Node.js) cohabitent, ce qui permet de lancer
+            les deux services avec une seule commande (<code>npm run dev</code>
+            ), de partager des configurations et de maintenir une qualité de
+            code homogène. Pour un guide de démarrage détaillé, consultez le{" "}
             <a
               href="https://github.com/Constance-Tlse/Anamnesis/blob/main/README.md"
               target="_blank"

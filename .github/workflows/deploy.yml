@@ -41,6 +41,11 @@ jobs:
         # ce qui est la bonne pratique pour l'intégration continue.
         run: npm run check:all
 
+      - name: 🛡️ Security Audit
+        # Fait échouer le workflow si des vulnérabilités de niveau modéré ou supérieur sont trouvées.
+        # C'est une excellente pratique pour maintenir une base de code saine.
+        run: npm audit --audit-level=moderate
+
   # --- JOB 2: Construit et pousse l'image Docker après un push sur 'staging' ---
   build:
     name: Build and Push Docker Image
