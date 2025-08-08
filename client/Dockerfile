@@ -2,17 +2,16 @@ FROM node:24-alpine AS build-base
 
 WORKDIR /app
 
+COPY package.json ./
+COPY package-lock.json ./
 COPY client/package.json ./client/
-COPY client/package-lock.json ./client/
 
-WORKDIR /app/client
-RUN npm install
 
-WORKDIR /app
+RUN npm install --workspace=client
+
 COPY client/ ./client/
 
-WORKDIR /app/client
-RUN npm run build
+RUN npm run build --workspace=client
 
 FROM nginx:alpine
 
