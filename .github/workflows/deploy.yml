@@ -31,11 +31,15 @@ jobs:
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
 
-      - name: Install client dependencies
-        run: npm install --workspace=@anamnesis/client
+      - name: Install all monorepo dependencies
+        # 'npm ci' est la méthode standard et la plus fiable pour la CI.
+        # Il faut tout installer pour pouvoir lancer les vérifications sur l'ensemble du projet.
+        run: npm ci
 
-      - name: Run Biome code quality check
-        run: npm run check --workspace=@anamnesis/client
+      - name: Run all checks (lint, types, etc.)
+        # On lance le script "check:all" qui vérifie l'intégralité du projet,
+        # ce qui est la bonne pratique pour l'intégration continue.
+        run: npm run check:all
 
   # --- JOB 2: Construit et pousse l'image Docker après un push sur 'staging' ---
   build:

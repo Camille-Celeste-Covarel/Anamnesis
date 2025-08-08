@@ -5,7 +5,7 @@ let toastId = 0;
 
 export const useToastStore = create<ToastState>((set) => ({
   toasts: [],
-  addToast: (message, type = "success") => {
+  addToast: (message: string, type = "success") => {
     const id = toastId++;
     set((state) => ({
       toasts: [...state.toasts, { id, message, type }],
@@ -17,7 +17,7 @@ export const useToastStore = create<ToastState>((set) => ({
       }));
     }, 4000);
   },
-  removeToast: (id) =>
+  removeToast: (id: number) =>
     set((state) => ({
       toasts: state.toasts.filter((toast) => toast.id !== id),
     })),

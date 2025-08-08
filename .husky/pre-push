@@ -1,0 +1,10 @@
+echo "🛡️  Running pre-push security checks..."
+
+# 1. Vérifie les dépendances pour des vulnérabilités de haute sévérité
+echo "\n🔎 Checking for vulnerable dependencies..."
+npm audit --audit-level=high
+
+echo "\n\x1b[32m✅ Pre-push checks passed. Pushing to remote...\x1b[0m"
+
+# Si l'une des commandes ci-dessus échoue, le push sera automatiquement annulé.
+exit 0
