@@ -17,8 +17,8 @@ env:
 
 jobs:
   test:
-    name: Lint and Test Code
-    if: github.event_name == 'pull_request'
+    name: 🛡️ Lint and Test Code
+    if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref == 'refs/heads/staging')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -44,8 +44,8 @@ jobs:
   # --- JOB 2: Construit et pousse l'image Docker après un push sur 'staging' ---
   build:
     name: Build and Push Docker Image
-    # Ne s'exécute que sur un push ou un déclenchement manuel
-    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    needs: test # Le build ne commence que si les tests ont réussi
+    if: (github.event_name == 'push' && github.ref == 'refs/heads/staging') || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     permissions:
       contents: read

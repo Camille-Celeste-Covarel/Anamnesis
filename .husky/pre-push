@@ -1,10 +1,17 @@
 echo "🛡️  Running pre-push security checks..."
 
-# 1. Vérifie les dépendances pour des vulnérabilités de haute sévérité
+# 1. Vérifie que le code est propre et que les types sont corrects
+echo "\n🔎 Running local checks (lint, format, types)..."
+npm run check:all
+if [ $? -ne 0 ]; then
+  echo "\n\x1b[31m❌ Local checks failed. Please fix the issues before pushing.\x1b[0m"
+  exit 1
+fi
+
+# 2. Vérifie les dépendances pour des vulnérabilités de haute sévérité
 echo "\n🔎 Checking for vulnerable dependencies..."
 npm audit --audit-level=high
 
 echo "\n\x1b[32m✅ Pre-push checks passed. Pushing to remote...\x1b[0m"
 
 # Si l'une des commandes ci-dessus échoue, le push sera automatiquement annulé.
-exit 0
