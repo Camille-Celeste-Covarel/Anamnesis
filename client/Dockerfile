@@ -17,7 +17,8 @@ FROM nginx:alpine
 
 RUN rm /etc/nginx/conf.d/default.conf
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# On copie la configuration Nginx depuis le dossier client
+COPY client/nginx.conf /etc/nginx/conf.d/default.conf
 
 COPY --from=build-base /app/client/dist /usr/share/nginx/html
 
