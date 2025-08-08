@@ -1,3 +1,35 @@
+# Fichier pour exclure des fichiers du contexte de build Docker,
+# ce qui permet d'optimiser l'utilisation du cache.
+
+# Git
+.git
+.gitignore
+
+# Fichiers de configuration GitHub et CI/CD
+.github
+
+# Dépendances Node.js (elles sont installées dans le conteneur)
 node_modules
-dist
+*/node_modules
+
+# Fichiers de log
+npm-debug.log*
+yarn-error.log
+
+# Fichiers d'environnement (ne doivent jamais être dans l'image)
 .env
+.env.*
+!/.env.example
+
+# Documentation et licence
+*.md
+LICENSE
+
+# Configuration des outils locaux non nécessaires au build
+commitlint.config.js
+lint-staged.config.cjs
+
+# Fichiers spécifiques à l'éditeur de code ou au système d'exploitation
+.vscode
+.idea
+.DS_Store

@@ -16,9 +16,11 @@ COPY server/package.json ./server/
 # Elle ne lance pas le script "prepare" (husky), ce qui résout votre erreur.
 RUN npm ci
 
-# Maintenant que les dépendances sont installées, on copie TOUT le code source.
-# C'est crucial car votre client a besoin des types partagés du serveur pour compiler.
-COPY . .
+# On ne copie que les workspaces nécessaires au build du client.
+# Cela évite d'invalider le cache si des fichiers non pertinents (ex: README.md) sont modifiés.
+# On copie le client (le code à builder) et le serveur (pour les types partagés).
+COPY client/ ./client/
+COPY server/ ./server/
 
 # On lance le build pour le client.
 RUN npm run build --workspace=@anamnesis/client
