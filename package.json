@@ -2,13 +2,13 @@
   "name": "anamnesis",
   "version": "0.9.9",
   "description": "",
-  "homepage": "https://github.com/  (hit Enter to use an empty string)/p3#readme",
+  "homepage": "https://github.com/  (hit Enter to use an empty string)/anamnesis/#readme",
   "bugs": {
-    "url": "https://github.com/  (hit Enter to use an empty string)/p3/issues"
+    "url": "https://github.com/  (hit Enter to use an empty string)/anamnesis/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/  (hit Enter to use an empty string)/p3.git"
+    "url": "git+https://github.com/  (hit Enter to use an empty string)/anamnesis.git"
   },
   "workspaces": [
     "client",

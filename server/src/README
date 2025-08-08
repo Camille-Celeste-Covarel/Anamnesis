@@ -12,8 +12,8 @@ TOMLPORT=4002
 CLIENT_URL=http://localhost:3000
 DB_HOST=localhost
 DB_PORT=5432
-DB_NAME=p3
-DB_USER=p3
+DB_NAME=db_name
+DB_USER=username
 DB_PASSWORD=You're passwd3.
 
 Votre base de données PostgreSQL locale doit être lancée.
@@ -50,7 +50,7 @@ npm run dev
 1.Un fichier server/.env.test.local doit exister.
 
 2.Son contenu doit être :Properties# Base de données dédiée aux tests
-DB_NAME=p3_test
+DB_NAME=Exemple
 
 # Le reste peut être identique à .env.development.local
 
@@ -58,7 +58,7 @@ PORT=4003 # Un port différent pour éviter les conflits
 CLIENT_URL=http://localhost:3000
 DB_HOST=localhost
 DB_PORT=5432
-DB_USER=p3
+DB_USER=username
 DB_PASSWORD=You're passw>>> Commandes :•>>> Terminal (Serveur) :Shell Script# Aller dans le dossier serveur
 cd server
 
@@ -70,7 +70,7 @@ npm run test
 .Environnement de Production (Simulation avec Docker)
 
 >>> Objectif : Construire et lancer l'application complète dans des conteneurs isolés, comme en production.
->>> Commandes (à lancer depuis la racine du projet P3) :Shell Script#
+>>> Commandes (à lancer depuis la racine du projet) :Shell Script#
 
 1. (Optionnel) Nettoyer les anciennes installations
 node bin/clean.js
