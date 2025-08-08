@@ -123,8 +123,9 @@ jobs:
             echo "--- Starting deployment on SnailFront ---"
 
             # --- Variable Setup and Validation ---
+            OWNER_LOWERCASE=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
             # L'image exacte à déployer, avec le digest pour garantir l'immuabilité
-            export IMAGE_TO_DEPLOY="${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}@${{ needs.build.outputs.image-digest }}"
+            export IMAGE_TO_DEPLOY="${{ env.REGISTRY }}/${OWNER_LOWERCASE}/${{ env.IMAGE_NAME }}@${{ needs.build.outputs.image-digest }}"
             # Un nom de conteneur spécifique pour ce déploiement "patern"
             export CONTAINER_NAME="anamanesis-patern-frontend"
             export HOST_PORT="${{ env.HOST_PORT }}"
